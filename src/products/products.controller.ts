@@ -40,7 +40,7 @@ export class ProductsController {
     };
   }
 
-  @Roles(ROLE.ADMIN)
+  @Public()
   @Get()
   async findAll(
     @Request() req: { [key: string]: any }
@@ -53,7 +53,7 @@ export class ProductsController {
     };
   }
 
-  @Roles(ROLE.ADMIN)
+  @Public()
   @Get(":id")
   async findOne(
     @Param("id") id: string

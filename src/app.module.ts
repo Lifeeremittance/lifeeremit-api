@@ -17,6 +17,9 @@ import { UsersModule } from "./users/users.module";
 import { ProvidersModule } from "./providers/providers.module";
 import { AuthModule } from "./auth/auth.module";
 import { ProductsModule } from "./products/products.module";
+import { CountriesModule } from "./countries/countries.module";
+import { CurrenciesModule } from "./currencies/currencies.module";
+import { RatesModule } from "./rates/rates.module";
 
 @Module({
   imports: [
@@ -49,6 +52,9 @@ import { ProductsModule } from "./products/products.module";
     ProvidersModule,
     AuthModule,
     ProductsModule,
+    CountriesModule,
+    CurrenciesModule,
+    RatesModule,
   ],
   controllers: [AppController],
   providers: [

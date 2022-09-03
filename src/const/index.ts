@@ -38,11 +38,6 @@ enum ORDER_STATUS {
   RETURNED = 'returned',
 }
 
-enum ORDER_ADMINISTRATION_METHODS {
-  FIELD_OFFICER = 'field_officer',
-  DIAGNOSTIC_CENTER = 'diagnostic_center',
-}
-
 enum CHARGE_STATUS {
   PAYSTACK_SUCCESS = 'charge.success',
   FLUTTERWAVE_SUCCESS = 'charge.completed',
@@ -65,7 +60,6 @@ enum ROLE {
 
 enum ENTIITY {
   USER = 'user',
-  DIAGNOSTIC_CENTER = 'diagnostic_center',
   ORDER = 'order',
   RESULT = 'result',
   TEST_ITEM = 'test_item',
@@ -81,8 +75,8 @@ enum MESSAGES {
   EXISTING_USER = 'You have an existing account with this email, go to Login',
   EXISTING_PROVIDER = 'The Service Provider you are trying to create already exists',
   EXISTING_PRODUCT = 'The Product you are trying to create already exists',
-  POSITIVE_ITEM = 'Positive item found',
-  ORDER_STATUS_QUERY_ERROR = "Please provide either 'status' or 'currentStatus'",
+  EXISTING_COUNTRY = 'The Country you are trying to create already exists',
+  EXISTING_CURRENCY = 'The Currency you are trying to create already exists',
   UNPROCESSABLE_ENTITY = 'Ooops! Something went wrong',
   RESTRICTED_LOOKUP = 'You are not allowed to lookup {0}',
 }
@@ -236,7 +230,6 @@ export {
   CACHE_KEYS,
   RESPONSES,
   GEO_JSON_TYPES,
-  ORDER_ADMINISTRATION_METHODS,
   LOGIN_ENTITIES,
   DIAGNOSTIC_CENTER_ACCEPTANCE_STATUSES,
   ACCEPTED_FILE_TYPES,

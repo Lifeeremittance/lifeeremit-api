@@ -46,6 +46,9 @@ export class User {
   @Prop({ ...IS_REQUIRED, ...IS_STRING })
   address: string;
 
+  @Prop({ ...IS_STRING })
+  country: string;
+
   // To make Typescript happy; we add the below properties to the schema
   _doc?: UserDocument;
   _id?: string;

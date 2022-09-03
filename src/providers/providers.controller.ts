@@ -45,7 +45,7 @@ export class ProvidersController {
     };
   }
 
-  @Roles(ROLE.ADMIN)
+  @Public()
   @Get()
   async findAll(
     @Request() req: { [key: string]: any }
@@ -58,7 +58,7 @@ export class ProvidersController {
     };
   }
 
-  @Roles(ROLE.ADMIN)
+  @Public()
   @Get(":id")
   async findOne(
     @Param("id") id: string

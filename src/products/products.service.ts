@@ -13,13 +13,8 @@ import { EMAILS, MESSAGES, ORDER_STATUS } from "../const";
 @Injectable()
 export class ProductsService {
   constructor(
-    @InjectModel(Products.name) private providerModel: Model<ProductDocument>
-  ) // private mailService: MailService,
-  {}
-
-  statusList(): Promise<string[]> {
-    return Promise.resolve(Object.values(ORDER_STATUS)?.sort());
-  }
+    @InjectModel(Products.name) private providerModel: Model<ProductDocument> // private mailService: MailService,
+  ) {}
 
   async create(createUserDto: CreateProductDto): Promise<Products> {
     const createdUser = new this.providerModel(createUserDto);
