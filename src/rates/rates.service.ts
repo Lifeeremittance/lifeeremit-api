@@ -16,12 +16,12 @@ export class RatesService {
   ) {}
 
   async update(updateRateDto: UpdateRateDto): Promise<Rates | null> {
-    const { provider } = updateRateDto
+    const { provider, country, currency } = updateRateDto;
     return this.ratesModel
       .findOneAndUpdate(
-        { provider },
+        { provider, country, currency },
         { ...updateRateDto, updated_at: new Date() },
-        { new: true },
+        { new: true }
       )
       .exec();
   }
@@ -34,7 +34,7 @@ export class RatesService {
     return createdRate.save();
   }
 
-  async findOne(
+  async findAll(
     filter: { [key: string]: any },
     throwError = true
   ): Promise<Rates[] | null> {
@@ -46,6 +46,20 @@ export class RatesService {
       );
 
     return rates;
+  }
+
+  async findOne(
+    filter: { [key: string]: any },
+    throwError = true
+  ): Promise<Rates | null> {
+    const rate = await this.ratesModel.findOne(filter).exec();
+
+    if (!rate && throwError)
+      throw new NotFoundException(
+        MESSAGES.MISSING_RESOURCE.replace("{0}", "Rate")
+      );
+
+    return rate;
   }
 
   async remove(_id: string): Promise<Rates | null> {

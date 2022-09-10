@@ -3,7 +3,7 @@ import {
   Get,
   Put,
   Body,
-  Patch,
+  Post,
   Param,
   Delete,
   Request,
@@ -27,10 +27,13 @@ export class RatesController {
   async update(@Body() updateRateDto: UpdateRateDto) {
     const { provider, country, currency } = updateRateDto;
 
-    const existingRate = await this.ratesService.findOne({ provider, country, currency }, false);
+    const existingRate = await this.ratesService.findAll(
+      { provider, country, currency },
+      false
+    );
 
     let updatedRate: Rates;
-    if (typeof existingRate !== 'undefined' && existingRate.length === 0)
+    if (typeof existingRate !== "undefined" && existingRate.length === 0)
       updatedRate = await this.ratesService.create(updateRateDto);
     else updatedRate = await this.ratesService.update(updateRateDto);
 
@@ -46,11 +49,30 @@ export class RatesController {
   async findOne(
     @Param("id") id: string
   ): Promise<{ status: STATUS; data: Rates[] | null }> {
-    const rates = await this.ratesService.findOne({ provider: id });
+    const rates = await this.ratesService.findAll({ provider: id });
 
     return {
       status: STATUS.SUCCESS,
       data: rates,
+    };
+  }
+
+  @Public()
+  @Post()
+  async findRateByAmount(
+    @Body() getRateDto: UpdateRateDto
+  ): Promise<{ status: STATUS; data: Rates | null }> {
+    const { provider, country, currency } = getRateDto;
+
+    const rate = await this.ratesService.findOne({
+      provider,
+      country,
+      currency,
+    });
+
+    return {
+      status: STATUS.SUCCESS,
+      data: rate,
     };
   }
 

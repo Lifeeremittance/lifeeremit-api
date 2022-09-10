@@ -1,4 +1,4 @@
-import { IsMongoId, IsNotEmpty, IsString } from "class-validator";
+import { IsMongoId, IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 export class UpdateRateDto {
   @IsNotEmpty()
@@ -18,5 +18,6 @@ export class UpdateRateDto {
 
   @IsNotEmpty()
   @IsString()
+  @IsOptional()
   readonly value: string;
 }
