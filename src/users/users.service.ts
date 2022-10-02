@@ -8,10 +8,12 @@ import {
 import { InjectModel } from "@nestjs/mongoose";
 import { User, UserDocument } from "./schemas/user.schema";
 import { CreateUserDto } from "./dto/create-user.dto";
-// import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 // import { generateToken } from '@/utils/generate-token';
 // import { MailService } from '@/mail/mail.service';
 import { EMAILS, MESSAGES, ORDER_STATUS } from "../const";
+
+type UpdateDTOType = { [key: string]: any } | UpdateUserDto;
 
 @Injectable()
 export class UsersService {
@@ -60,18 +62,18 @@ export class UsersService {
     return user;
   }
 
-  // async update(
-  //   _id: string,
-  //   updateUserDto: UpdateUserDto,
-  // ): Promise<User | null> {
-  //   return this.userModel
-  //     .findOneAndUpdate(
-  //       { _id },
-  //       { ...updateUserDto, updated_at: new Date() },
-  //       { new: true },
-  //     )
-  //     .exec();
-  // }
+  async update(
+    _id: string,
+    updateUserDto: UpdateDTOType,
+  ): Promise<User | null> {
+    return this.userModel
+      .findOneAndUpdate(
+        { _id },
+        { ...updateUserDto, updated_at: new Date() },
+        { new: true },
+      )
+      .exec();
+  }
 
   async remove(_id: string): Promise<User | null> {
     return this.userModel.findOneAndRemove({ _id }).exec();

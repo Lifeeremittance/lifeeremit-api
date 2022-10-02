@@ -1,7 +1,17 @@
-// import { PartialType } from '@nestjs/mapped-types';
-// import { validate } from 'class-validator';
-// import { CreateUserDto } from './create-user.dto';
+import { PartialType } from "@nestjs/mapped-types";
+import { IsString, Length, validate, IsOptional } from "class-validator";
+import { CreateUserDto } from "./create-user.dto";
 
-// export class UpdateUserDto extends PartialType(CreateUserDto) {}
+export class UpdateUserDto extends PartialType(CreateUserDto) {
+  @IsString()
+  @Length(6, 30)
+  @IsOptional()
+  readonly fullName: string;
 
-// validate(UpdateUserDto, { skipMissingProperties: true });
+  @IsString()
+  @Length(6, 6)
+  // @IsAlphanumeric()
+  readonly token: string;
+}
+
+validate(UpdateUserDto, { skipMissingProperties: true });

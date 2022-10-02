@@ -1,0 +1,273 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Test Result Ready</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap");
+      body {
+        font-family: "Inter", sans-serif;
+        font-size: 15px;
+        font-weight: 400;
+        color: #808080;
+      }
+      
+      #container {
+        background-color: #f9f8ff;
+      }
+      #emailContainer {
+        background-color: #ffffff;
+      }
+      #successMessage {
+        font-weight: 700;
+        color: #3e3e3e;
+        font-size: 20px;
+      }
+
+      .social-icons img{
+          margin-left: 20px;
+      }
+      .link {
+        color: #867ae9;
+      }
+      .date {
+        font-weight: 700;
+        color: #3e3e3e;
+      }
+      #detailsHeading {
+        font-weight: 600;
+        color: #3e3e3e;
+      }
+      #orderBanner {
+        border: 1px solid #f4f4f4;
+        /* font-size: 12px; */
+      }
+      #price {
+        font-weight: 700;
+        font-size: 25px;
+        color: #867ae9;
+      }
+      #testType {
+        font-weight: 700;
+        font-size: 22px;
+        color: #3e3e3e;
+      }
+      #testItem {
+        color: #3e3e3e;
+      }
+      .button {
+        background-color: #867ae9;
+        color: #ffffff;
+        border: none;
+        font-weight: 900;
+        font-size: 20px;
+        padding: 12px 60px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <table
+      border="0"
+      cellpadding="20"
+      cellspacing="0"
+      height="100%"
+      max-width="640"
+      width="100%"
+      id="body"
+    >
+      <tr>
+        <td align="center" valign="top">
+          <!-- container -->
+
+          <table
+            border="0"
+            cellpadding="20"
+            cellspacing="0"
+            width="640"
+            height="100%"
+            id="container"
+          >
+            <tr>
+              <td align="center" valign="top">
+                <table
+                  border="0"
+                  cellpadding="20"
+                  cellspacing="0"
+                  width="580"
+                  height="100%"
+                  id="emailContainer"
+                >
+                  <!-- logo and social -->
+                  <tr>
+                    <td align="center" valign="top">
+                      <table border="0" width="100%" id="emailHeader">
+                        <tr>
+                          <td align="left">
+                            <a href="https://signalplaysafe.com/"><img src="https://assets.signalplaysafe.com/uploads/email_templates/SignalLogo.png" /></a>
+                          </td>
+
+                          <td align="right" class="social-icons">
+                            <a href="#"><img src="https://assets.signalplaysafe.com/uploads/email_templates/Social+icon+-+Twitter.png" /></a>
+                            <a href="#"><img src="https://assets.signalplaysafe.com/uploads/email_templates/Social+icon+-+FB.png" /></a>
+                            <a href="#"><img src="https://assets.signalplaysafe.com/uploads/email_templates/Social+icon+-+Twitter.png" /></a>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+
+                  <!-- Result banner -->
+                  <tr>
+                    <td align="center" valign="top">
+                      <table
+                        border="0"
+                        cellpadding="10"
+                        cellspacing="0"
+                        width="100%"
+                        id="successMessage"
+                      >
+                        <tr>
+                          <td align="center">
+                            <img src="https://assets.signalplaysafe.com/uploads/email_templates/Medical+Results.png" />
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td align="center">Test Result</td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+
+                  <!-- email text -->
+                  <tr>
+                    <td align="center" valign="top">
+                      <table
+                        border="0"
+                        cellpadding="10"
+                        cellspacing="0"
+                        width="100%"
+                        id="emailText"
+                      >
+                        <tr>
+                          <td>Hello {{username}},</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Your result is ready. Click on View Result to navigate to Signal Play Safe.
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+
+                  <!-- order details -->
+                  <tr>
+                    <td align="center" valign="top">
+                      <table
+                        border="0"
+                        cellpadding="10"
+                        cellspacing="0"
+                        width="100%"
+                        id="orderDetails"
+                      >
+                        <tr>
+                          <td id="detailsHeading">Order details:</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Your order number is:
+                            <span class="link">{{order_number}}</span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Date: <span class="date">{{date}}</span></td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+
+                  <!-- order banner -->
+
+                  <tr>
+                    <td align="center" valign="top">
+                      <table
+                        border="0"
+                        cellpadding="10"
+                        cellspacing="0"
+                        width="100%"
+                        id="orderBanner"
+                      >
+                        <tr>
+                            <td align="left">
+                                <img id="box" src="https://assets.signalplaysafe.com/uploads/email_templates/box.png" />
+                              </td>
+
+                          <td align="right">
+                            Basic package: covers four common STIs -
+                            <span id="testItem"
+                              >{{test_items}}</span
+                            >
+                          </td>
+ 
+                        </tr>
+                        <tr>
+                          <td align="left" id="testType">{{test_type}}</td>
+                          <td align="right" id="price">{{price}}</td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+
+                  <!-- button -->
+                  <tr>
+                    <td align="center" valign="top">
+                      <table
+                        border="0"
+                        cellpadding="10"
+                        cellspacing="0"
+                        width="100%"
+                        id="button"
+                      >
+                        <tr>
+                            <td align="center">
+                                <a href="https://signalplaysafe.com/app" ><button class="button">View Order</button></a>
+                              </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- footer  -->
+            <tr>
+              <td align="center" valign="top">
+                <table
+                  border="0"
+                  cellpadding="10"
+                  cellspacing="0"
+                  width="100%"
+                  id="footer"
+                >
+                  <tr>
+                    <td>
+                        Don&apos;t want any more emails from Signal? <a href="#">Unsubscribe.</a>
+                      </td>
+                  </tr>
+                  <tr>
+                    <td>75 Somewhere Lagos, Nigeria. <br></br> &copy; {{year}} Signal</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

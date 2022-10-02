@@ -26,16 +26,15 @@ enum DIAGNOSTIC_CENTER_ACCEPTANCE_STATUSES {
 enum ORDER_STATUS {
   NEW_ORDER = 'new_order',
   PAYMENT_SUCCESSFUL = 'payment_successful',
+  AWAITING_KEY = 'awaiting_key',
+  TEMP_KEY = 'temp_key',
+  LICENSED = 'licensed',
   ASSIGNED = 'assigned',
-  AWAITING_PICKUP = 'awaiting_pickup',
-  ORDER_COLLECTED = 'order_collected',
-  DROPPED_OFF = 'dropped_off',
   PROCESSING = 'processing',
   PROCESSED = 'processed',
   UNDER_REVIEW = 'under_review',
   VERIFICATION = 'verification',
   COMPLETED = 'completed',
-  RETURNED = 'returned',
 }
 
 enum CHARGE_STATUS {
