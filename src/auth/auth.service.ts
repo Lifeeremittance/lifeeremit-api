@@ -42,15 +42,13 @@ export class AuthService {
     await this.usersService.update(user._id, { token });
 
     const emailBody = {
-      from: '"LIFEEREMIT" <support@ayindesamuel.com.ng>',
+      from: '"LIFEEREMIT" <lifeeremit@gmail.com>',
       to: email_address,
       subject: "LIFEEREMIT email verification",
       html: token,
     };
 
-    sgMail.setApiKey(
-      process.env.MAIL_PASSWORD
-    );
+    sgMail.setApiKey(process.env.MAIL_PASSWORD);
 
     sgMail.send(emailBody);
 
