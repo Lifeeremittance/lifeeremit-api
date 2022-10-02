@@ -10,7 +10,7 @@ import {
   UnauthorizedException,
   UnprocessableEntityException,
 } from "@nestjs/common";
-import { Roles } from '../decorators/roles.decorator';
+import { Roles } from "../decorators/roles.decorator";
 import { Public } from "../decorators/is-public.decorator";
 // import { isAppropriateViewer } from '@/utils/is-appropriate-viewer';
 import { MESSAGES, ROLE, STATUS } from "../const";
@@ -50,7 +50,7 @@ export class UsersController {
   @Roles(ROLE.ADMIN)
   @Get()
   async findAll(
-    @Request() req: { [key: string]: any },
+    @Request() req: { [key: string]: any }
   ): Promise<{ status: STATUS; data: User[] }> {
     const users = await this.usersService.findAll(req.query);
 
@@ -60,10 +60,25 @@ export class UsersController {
     };
   }
 
-  @Roles(ROLE.ADMIN)
-  @Get(':id')
+  @Get("me")
   async findOne(
-    @Param('id') id: string,
+    @Request() req: { [key: string]: any }
+  ): Promise<{ status: STATUS; data: User | null }> {
+    console.log(req.user);
+    const { _id } = req.user;
+
+    const user = await this.usersService.findOne({ _id }, false);
+
+    return {
+      status: STATUS.SUCCESS,
+      data: user,
+    };
+  }
+
+  @Roles(ROLE.ADMIN)
+  @Get("/user/:id")
+  async findOneById(
+    @Param("id") id: string
   ): Promise<{ status: STATUS; data: User | null }> {
     const user = await this.usersService.findOne({ _id: id });
 

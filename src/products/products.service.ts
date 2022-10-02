@@ -35,7 +35,7 @@ export class ProductsService {
   }
 
   async findAll(filter: { [key: string]: any } = {}): Promise<Products[]> {
-    return this.providerModel.find(filter).sort({ _id: -1 }).exec();
+    return this.providerModel.find(filter).exec();
   }
 
   async findOne(

@@ -9,15 +9,10 @@ import {
   IsString,
   Length,
   // ValidateIf,
-} from 'class-validator';
-import { ROLE } from '../../const';
+} from "class-validator";
+import { ROLE } from "../../const";
 
 export class CreateUserDto {
-  @IsString()
-  @Length(6, 30)
-  // @IsAlphanumeric()
-  readonly fullName: string;
-
   @IsNotEmpty()
   @IsEmail()
   readonly email_address: string;
@@ -33,18 +28,18 @@ export class CreateUserDto {
   @ArrayUnique()
   readonly roles: ROLE[];
 
-  // @ValidateIf((o) => o.roles.includes(ROLE.FIELD_OFFICER))
-  // @IsString()
-  // @MaxLength(30)
-  // first_name?: string;
-  
   @IsString()
-  @Length(6, 30)
+  @Length(3, 30)
   // @IsAlphanumeric()
   readonly companyName: string;
 
   @IsString()
   @Length(6, 30)
+  // @IsAlphanumeric()
+  readonly phone_number: string;
+
+  @IsString()
+  @Length(3, 30)
   // @IsAlphanumeric()
   readonly address: string;
 }

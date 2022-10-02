@@ -23,24 +23,13 @@ export class ProvidersService {
 
   async create(createUserDto: CreateProviderDto): Promise<Providers> {
     const createdUser = new this.providerModel(createUserDto);
-
     if (!createdUser._id) throw new UnprocessableEntityException();
-
-    //   await this.mailService.sendMail(
-    //     createdUser.email_address,
-    //     EMAILS.CONFIRMATION.SUBJECT,
-    //     EMAILS.CONFIRMATION.TEMPLATE_NAME,
-    //     {
-    //       username: createdUser.username,
-    //       token,
-    //     },
-    //   );
 
     return createdUser.save();
   }
 
   async findAll(filter: { [key: string]: any } = {}): Promise<Providers[]> {
-    return this.providerModel.find(filter).sort({ _id: -1 }).exec();
+    return this.providerModel.find(filter).exec();
   }
 
   async findOne(

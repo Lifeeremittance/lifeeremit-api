@@ -1,31 +1,25 @@
-import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { UsersService } from './../users/users.service';
-import { UserDocument } from './../users/schemas/user.schema';
-// import { generateToken } from './../utils/generate-token';
-// import { MailService } from './../mail/mail.service';
-import {
-  CACHE_KEYS,
-  DUMMY_TOKEN,
-  EMAILS,
-  ENVIRONMENT,
-  LOGIN_ENTITIES,
-  ROLE,
-} from './../const';
+import { CACHE_MANAGER, Inject, Injectable } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
+import { Cache } from "cache-manager";
+import * as sgMail from "@sendgrid/mail";
+import { UsersService } from "./../users/users.service";
+import { User, UserDocument } from "./../users/schemas/user.schema";
+import { generateToken } from "./../utils/generate-token";
+import { CACHE_KEYS, EMAILS, LOGIN_ENTITIES, ROLE } from "./../const";
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache
   ) {}
 
   async requestLoginToken(
     email_address: string,
-    entity: LOGIN_ENTITIES,
+    entity: LOGIN_ENTITIES
   ): Promise<boolean> {
-    const isProduction = process.env.NODE_ENV === ENVIRONMENT.PRODUCTION;
-    let user;
+    let user: User;
 
     switch (entity) {
       case LOGIN_ENTITIES.USER:
@@ -43,17 +37,22 @@ export class AuthService {
 
     if (!user) return false;
 
-    // const token = isProduction ? generateToken() : DUMMY_TOKEN;
-    // const token = DUMMY_TOKEN;
+    const token = generateToken();
+    // save token in user schema
+    await this.usersService.update(user._id, { token });
 
-    // if (isProduction && value === 'OK') {
-    //   await this.mailService.sendMail(
-    //     email_address,
-    //     EMAILS.CONFIRMATION.SUBJECT,
-    //     EMAILS.CONFIRMATION.TEMPLATE_NAME,
-    //     { username: user.username, token },
-    //   );
-    // }
+    const emailBody = {
+      from: '"LIFEEREMIT" <support@ayindesamuel.com.ng>',
+      to: email_address,
+      subject: "LIFEEREMIT email verification",
+      html: token,
+    };
+
+    sgMail.setApiKey(
+      "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"
+    );
+
+    sgMail.send(emailBody);
 
     return true;
   }
@@ -61,9 +60,15 @@ export class AuthService {
   async validateUser(
     email_address: string,
     token: string,
-    entity: LOGIN_ENTITIES,
+    entity: LOGIN_ENTITIES
   ): Promise<UserDocument | undefined | null> {
     const user = await this.usersService.findOne({ email_address });
+
+    if (!user) return null;
+
+    if (user.token !== token) return null;
+
+    await this.usersService.update(user._id, { token: "" });
 
     return user?._doc;
   }
@@ -71,7 +76,6 @@ export class AuthService {
   async login(user: any) {
     const payload = {
       sub: user._id,
-      fullName: user.fullName,
       email_address: user.email_address,
       roles: user.roles,
     };
