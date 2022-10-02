@@ -49,7 +49,7 @@ export class AuthService {
     };
 
     sgMail.setApiKey(
-      "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"
+      process.env.MAIL_PASSWORD
     );
 
     sgMail.send(emailBody);
