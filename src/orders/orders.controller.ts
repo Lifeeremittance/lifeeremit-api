@@ -92,7 +92,7 @@ export class OrdersController {
     };
   }
 
-  @Roles(ROLE.ADMIN, ROLE.FIELD_OFFICER, ROLE.DIAGNOSTIC_CENTER)
+  @Roles(ROLE.ADMIN)
   @Patch(":id")
   async update(
     @Param("id") id: string,
