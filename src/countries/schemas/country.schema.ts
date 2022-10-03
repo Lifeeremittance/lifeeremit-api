@@ -8,11 +8,14 @@ export type CountryDocument = Countries & Document;
 
 @Schema()
 export class Countries {
-  @Prop({ ...IS_REQUIRED, ...IS_UNIQUE, ...IS_STRING })
+  @Prop({ ...IS_REQUIRED, ...IS_STRING })
   countryName: string;
 
-  @Prop({ ...IS_REQUIRED, ...IS_UNIQUE, ...IS_STRING })
+  @Prop({ ...IS_REQUIRED, ...IS_STRING })
   countryFlag: string;
+
+  @Prop({ ...IS_REQUIRED, ...IS_STRING })
+  countryCode: string;
 
   @Prop({ ...IS_NUMBER, ...NOW })
   created_at: Date;
