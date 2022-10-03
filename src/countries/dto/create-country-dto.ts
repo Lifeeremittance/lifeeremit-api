@@ -8,5 +8,9 @@ export class CreateCountryDto {
 
   @IsNotEmpty()
   @IsString()
+  readonly countryCode: string;
+
+  @IsNotEmpty()
+  @IsString()
   readonly countryFlag: string;
 }

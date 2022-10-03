@@ -22,7 +22,7 @@ import {
 } from "../const";
 import { Roles } from "../decorators/roles.decorator";
 import { User } from "../users/schemas/user.schema";
-import { whoAmI } from "src/utils/who-am-I";
+import { whoAmI } from "../utils/who-am-I";
 
 import { MailService } from "../mail/mail.service";
 import { UsersService } from "../users/users.service";
@@ -64,9 +64,15 @@ export class OrdersController {
   async findAll(@Request() req: { [key: string]: any }) {
     // const requester = req.user?._id ?? "";
 
+    const { isUser } = whoAmI(req.user.roles);
+    // console.log(isAdmin, isUser);
+
     const query = {
+      ...(isUser && { user: req.user._id }),
       ...req.query,
     };
+
+    console.log(query);
 
     let orders = await this.ordersService.findAll(query);
 
@@ -79,8 +85,6 @@ export class OrdersController {
   @Get(":id")
   async findOne(@Param("id") id: any, @Request() req: { user: User }) {
     const order = await this.ordersService.findOne({ _id: id });
-
-    // const { isAdmin, isUser } = whoAmI(req.user.roles);
 
     return {
       status: STATUS.SUCCESS,

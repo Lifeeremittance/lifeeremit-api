@@ -17,7 +17,7 @@ import { MESSAGES, ROLE, STATUS } from "../const";
 import { User } from "./schemas/user.schema";
 import { UsersService } from "./users.service";
 import { CreateUserDto } from "./dto/create-user.dto";
-// import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller("users")
 export class UsersController {
@@ -64,7 +64,6 @@ export class UsersController {
   async findOne(
     @Request() req: { [key: string]: any }
   ): Promise<{ status: STATUS; data: User | null }> {
-    console.log(req.user);
     const { _id } = req.user;
 
     const user = await this.usersService.findOne({ _id }, false);
@@ -88,22 +87,19 @@ export class UsersController {
     };
   }
 
-  // @Patch(':id')
-  // async update(
-  //   @Param('id') id: string,
-  //   @Body() updateUserDto: UpdateUserDto,
-  //   @Request() req: { user: User },
-  // ) {
-  //   if (!isAppropriateViewer(req.user, [ROLE.ADMIN], id))
-  //     throw new UnauthorizedException();
+  @Patch(':id')
+  async update(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+    @Request() req: { user: User },
+  ) {
+    const updatedUser = await this.usersService.update(id, updateUserDto);
 
-  //   const updatedUser = await this.usersService.update(id, updateUserDto);
-
-  //   return {
-  //     status: updatedUser ? STATUS.SUCCESS : STATUS.ERROR,
-  //     data: updatedUser ? MESSAGES.UPDATE_SUCCESS : MESSAGES.UPDATE_ERROR,
-  //   };
-  // }
+    return {
+      status: updatedUser ? STATUS.SUCCESS : STATUS.ERROR,
+      data: updatedUser ? MESSAGES.UPDATE_SUCCESS : MESSAGES.UPDATE_ERROR,
+    };
+  }
 
   // @Roles(ROLE.ADMIN)
   // @Delete(':id')

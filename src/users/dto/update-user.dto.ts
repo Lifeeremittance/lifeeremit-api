@@ -10,7 +10,7 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
 
   @IsString()
   @Length(6, 6)
-  // @IsAlphanumeric()
+  @IsOptional()
   readonly token: string;
 }
 

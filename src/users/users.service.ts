@@ -8,7 +8,7 @@ import {
 import { InjectModel } from "@nestjs/mongoose";
 import { User, UserDocument } from "./schemas/user.schema";
 import { CreateUserDto } from "./dto/create-user.dto";
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateUserDto } from "./dto/update-user.dto";
 // import { generateToken } from '@/utils/generate-token';
 // import { MailService } from '@/mail/mail.service';
 import { EMAILS, MESSAGES, ORDER_STATUS } from "../const";
@@ -18,9 +18,8 @@ type UpdateDTOType = { [key: string]: any } | UpdateUserDto;
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectModel(User.name) private userModel: Model<UserDocument> // @Inject(CACHE_MANAGER) private cacheManager: Cache,
-  ) // private mailService: MailService,
-  {}
+    @InjectModel(User.name) private userModel: Model<UserDocument> // @Inject(CACHE_MANAGER) private cacheManager: Cache, // private mailService: MailService,
+  ) {}
 
   statusList(): Promise<string[]> {
     return Promise.resolve(Object.values(ORDER_STATUS)?.sort());
@@ -45,7 +44,11 @@ export class UsersService {
   }
 
   async findAll(filter: { [key: string]: any } = {}): Promise<User[]> {
-    return this.userModel.find(filter).sort({ _id: -1 }).exec();
+    // return all users who are not admins
+    return this.userModel
+      .find({ ...filter, roles: { $ne: "admin" } })
+      .sort({ _id: -1 })
+      .exec();
   }
 
   async findOne(
@@ -64,13 +67,13 @@ export class UsersService {
 
   async update(
     _id: string,
-    updateUserDto: UpdateDTOType,
+    updateUserDto: UpdateDTOType
   ): Promise<User | null> {
     return this.userModel
       .findOneAndUpdate(
         { _id },
         { ...updateUserDto, updated_at: new Date() },
-        { new: true },
+        { new: true }
       )
       .exec();
   }

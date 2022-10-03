@@ -9,4 +9,8 @@ export class CreateCurrencyDto {
   @IsNotEmpty()
   @IsString()
   readonly currencyCode: string;
+
+  @IsNotEmpty()
+  @IsString()
+  readonly currencyImage: string;
 }
