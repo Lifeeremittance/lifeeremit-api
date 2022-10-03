@@ -52,10 +52,10 @@ export class Order {
   country: Countries;
 
   @Prop({
-    ...IS_REQUIRED,
     type: mongoose.Schema.Types.ObjectId,
     ref: Currencies.name,
     autopopulate: true,
+    default: null,
   })
   currency: Currencies;
 
@@ -89,21 +89,21 @@ export class Order {
   @Prop({ ...IS_STRING })
   invoice: string;
 
-  @Prop({ ...IS_STRING })
+  @Prop({ ...IS_STRING, default: "" })
   rate: string;
 
-  @Prop({ ...IS_NUMBER })
+  @Prop({ ...IS_NUMBER, default: "" })
   amount: number;
 
-  @Prop({ ...IS_NUMBER })
+  @Prop({ ...IS_NUMBER, default: "" })
   product_value: number;
 
-  @Prop({ ...IS_STRING })
+  @Prop({ ...IS_STRING, default: "" })
   temp_key: string;
 
-  @Prop({ ...IS_STRING })
+  @Prop({ ...IS_STRING, default: "" })
   license_key: string;
-  
+
   @Prop({ ...IS_NUMBER, ...NOW })
   created_at: Date;
 
