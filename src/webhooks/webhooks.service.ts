@@ -29,7 +29,7 @@ export class WebhooksService {
       event,
       data: {
         amount,
-        metadata: { orderId },
+        metadata: { orderId, product_value, rate, currency },
         status,
       },
     } = handleWebhookDto;
@@ -38,7 +38,10 @@ export class WebhooksService {
       event,
       amount,
       orderId,
+      product_value,
+      rate,
       status,
+      currency,
     };
   }
 }

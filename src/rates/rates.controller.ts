@@ -47,9 +47,13 @@ export class RatesController {
   @Roles(ROLE.ADMIN)
   @Get(":id")
   async findOne(
-    @Param("id") id: string
+    @Param("id") id: string,
+    @Request() req: { [key: string]: any }
   ): Promise<{ status: STATUS; data: Rates[] | null }> {
-    const rates = await this.ratesService.findAll({ provider: id });
+    const rates = await this.ratesService.findAll({
+      ...req.query,
+      provider: id,
+    });
 
     return {
       status: STATUS.SUCCESS,

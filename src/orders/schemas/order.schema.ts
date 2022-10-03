@@ -3,19 +3,11 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { User } from "../../users/schemas/user.schema";
 import { Providers } from "../../providers/schemas/provider.schema";
 import { Products } from "../../products/schemas/products.schema";
-import {
-  ORDER_STATUS,
-  SCHEMA_DEFAULTS,
-} from "../../const";
+import { Countries } from "../../countries/schemas/country.schema";
+import { ORDER_STATUS, SCHEMA_DEFAULTS } from "../../const";
 
-const {
-  IS_NUMBER,
-  IS_REQUIRED,
-  IS_STRING,
-  IS_UNIQUE,
-  NEW_ORDER,
-  NOW,
-} = SCHEMA_DEFAULTS;
+const { IS_NUMBER, IS_REQUIRED, IS_STRING, IS_UNIQUE, NEW_ORDER, NOW } =
+  SCHEMA_DEFAULTS;
 
 type OrderStatus = {
   type: ORDER_STATUS;
@@ -50,8 +42,13 @@ export class Order {
   })
   product: Products;
 
-  @Prop({ ...IS_REQUIRED, ...IS_STRING })
-  country: string;
+  @Prop({
+    ...IS_REQUIRED,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: Countries.name,
+    autopopulate: true,
+  })
+  country: Countries;
 
   @Prop({ ...IS_REQUIRED, ...IS_STRING })
   phone_number: string;
@@ -92,6 +89,15 @@ export class Order {
   @Prop({ ...IS_NUMBER })
   amount: number;
 
+  @Prop({ ...IS_NUMBER })
+  product_value: number;
+
+  @Prop({ ...IS_STRING })
+  temp_key: string;
+
+  @Prop({ ...IS_STRING })
+  license_key: string;
+  
   @Prop({ ...IS_NUMBER, ...NOW })
   created_at: Date;
 

@@ -11,6 +11,9 @@ export class HandleWebhookDto {
     amount: number;
     metadata: {
       orderId: string;
+      product_value: string;
+      rate: string;
+      currency: string;
     };
     status: string;
   };
