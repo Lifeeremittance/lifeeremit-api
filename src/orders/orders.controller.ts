@@ -110,8 +110,7 @@ export class OrdersController {
         ...prunedUpdateOrderDto,
         $push: {
           status: {
-            type: prunedUpdateOrderDto.status,
-            created_at: Date.now(),
+            $each: [prunedUpdateOrderDto.status],
           },
         },
       };
