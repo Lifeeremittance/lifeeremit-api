@@ -80,7 +80,7 @@ export class Order {
   @Prop({ ...IS_STRING })
   reason: string;
 
-  @Prop({ ...IS_STRING })
+  @Prop({ ...IS_STRING, default: "" })
   reference_number: string;
 
   @Prop({ ...IS_NUMBER })
@@ -103,6 +103,12 @@ export class Order {
 
   @Prop({ ...IS_STRING, default: "" })
   license_key: string;
+
+  @Prop({ ...IS_STRING, default: "" })
+  license_key_exp_date: string;
+
+  @Prop({ ...IS_STRING, default: "" })
+  temp_key_exp_date: string;
 
   @Prop({ ...IS_NUMBER, ...NOW })
   created_at: Date;
