@@ -60,7 +60,7 @@ export class CreateOrderDto {
   @IsOptional()
   @IsNotEmpty()
   @IsString()
-  @Length(6, 30)
+  @Length(6, 200)
   readonly reason: string;
 
   @IsOptional()

@@ -4,6 +4,7 @@ import { User } from "../../users/schemas/user.schema";
 import { Providers } from "../../providers/schemas/provider.schema";
 import { Products } from "../../products/schemas/products.schema";
 import { Countries } from "../../countries/schemas/country.schema";
+import { Currencies } from "../../currencies/schemas/currency.schema";
 import { ORDER_STATUS, SCHEMA_DEFAULTS } from "../../const";
 
 const { IS_NUMBER, IS_REQUIRED, IS_STRING, IS_UNIQUE, NEW_ORDER, NOW } =
@@ -50,6 +51,14 @@ export class Order {
   })
   country: Countries;
 
+  @Prop({
+    ...IS_REQUIRED,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: Currencies.name,
+    autopopulate: true,
+  })
+  currency: Currencies;
+
   @Prop({ ...IS_REQUIRED, ...IS_STRING })
   phone_number: string;
 
@@ -79,9 +88,6 @@ export class Order {
 
   @Prop({ ...IS_STRING })
   invoice: string;
-
-  @Prop({ ...IS_STRING })
-  currency: string;
 
   @Prop({ ...IS_STRING })
   rate: string;
