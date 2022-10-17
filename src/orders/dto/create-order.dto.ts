@@ -30,6 +30,11 @@ export class CreateOrderDto {
   @Length(3, 30)
   readonly country: string;
 
+  @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  readonly order_number: string;
+
   @IsNotEmpty()
   @IsString()
   @Length(3, 30)
@@ -70,7 +75,7 @@ export class CreateOrderDto {
 
   @IsOptional()
   @IsNotEmpty()
-  @IsNumber()
+  @IsString()
   readonly reference_number: number;
 
   @IsOptional()

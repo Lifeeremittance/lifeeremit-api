@@ -1,17 +1,17 @@
-import { Model } from 'mongoose';
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { CreateOrderDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
-import { Order, OrderDocument } from './schemas/order.schema';
-import { MESSAGES } from '../const';
+import { Model } from "mongoose";
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { CreateOrderDto } from "./dto/create-order.dto";
+import { UpdateOrderDto } from "./dto/update-order.dto";
+import { Order, OrderDocument } from "./schemas/order.schema";
+import { MESSAGES } from "../const";
 
 type UpdateDTOType = { [key: string]: any } | UpdateOrderDto;
 
 @Injectable()
 export class OrdersService {
   constructor(
-    @InjectModel(Order.name) private orderModel: Model<OrderDocument>,
+    @InjectModel(Order.name) private orderModel: Model<OrderDocument>
   ) {}
 
   async create(createOrderDto: CreateOrderDto): Promise<Order> {
@@ -28,7 +28,7 @@ export class OrdersService {
 
     if (!order)
       throw new NotFoundException(
-        MESSAGES.MISSING_RESOURCE.replace('{0}', 'Order'),
+        MESSAGES.MISSING_RESOURCE.replace("{0}", "Order")
       );
 
     return order;
@@ -36,13 +36,13 @@ export class OrdersService {
 
   async update(
     filter: { [key: string]: string },
-    updateOrderDto: UpdateDTOType,
+    updateOrderDto: UpdateDTOType
   ): Promise<Order | null> {
     return this.orderModel
       .findOneAndUpdate(
         filter,
         { ...updateOrderDto, updated_at: new Date() },
-        { new: true },
+        { new: true }
       )
       .exec();
   }

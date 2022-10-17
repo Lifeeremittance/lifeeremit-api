@@ -26,6 +26,7 @@ import { RatesModule } from "./rates/rates.module";
 import { MailModule } from "./mail/mail.module";
 import { OrdersModule } from "./orders/orders.module";
 import { WebhooksModule } from "./webhooks/webhooks.module";
+import { ChargesModule } from "./charges/charges.module";
 
 @Module({
   imports: [
@@ -75,6 +76,7 @@ import { WebhooksModule } from "./webhooks/webhooks.module";
     MailModule,
     OrdersModule,
     WebhooksModule,
+    ChargesModule,
   ],
   controllers: [AppController],
   providers: [

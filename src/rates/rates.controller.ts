@@ -44,7 +44,6 @@ export class RatesController {
     };
   }
 
-  @Roles(ROLE.ADMIN)
   @Get(":id")
   async findOne(
     @Param("id") id: string,

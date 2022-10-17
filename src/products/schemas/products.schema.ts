@@ -3,7 +3,8 @@ import mongoose, { Document } from "mongoose";
 import { Providers } from "../../providers/schemas/provider.schema";
 import { SCHEMA_DEFAULTS } from "../../const";
 
-const { IS_REQUIRED, IS_UNIQUE, IS_NUMBER, NOW, IS_STRING } = SCHEMA_DEFAULTS;
+const { IS_REQUIRED, IS_UNIQUE, IS_NUMBER, NOW, IS_STRING, IS_BOOLEAN } =
+  SCHEMA_DEFAULTS;
 
 export type ProductDocument = Products & Document;
 
@@ -19,6 +20,9 @@ export class Products {
     autopopulate: true,
   })
   provider: string;
+
+  @Prop({ ...IS_REQUIRED, ...IS_BOOLEAN, default: true })
+  is_active: boolean;
 
   @Prop({ ...IS_NUMBER, ...NOW })
   created_at: Date;

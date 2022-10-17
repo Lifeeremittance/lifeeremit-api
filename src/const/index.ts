@@ -78,6 +78,7 @@ enum MESSAGES {
   EXISTING_CURRENCY = 'The Currency you are trying to create already exists',
   UNPROCESSABLE_ENTITY = 'Ooops! Something went wrong',
   RESTRICTED_LOOKUP = 'You are not allowed to lookup {0}',
+  USER_NOT_FOUND = 'User not found',
 }
 
 enum NOTIFICATION_MESSAGES {

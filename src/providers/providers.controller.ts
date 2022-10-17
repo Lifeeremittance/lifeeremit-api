@@ -16,7 +16,7 @@ import { MESSAGES, ROLE, STATUS } from "../const";
 import { Providers } from "./schemas/provider.schema";
 import { ProvidersService } from "./providers.service";
 import { CreateProviderDto } from "./dto/create-provider.dto";
-// import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateProviderDto } from './dto/update-provider.dto';
 
 @Controller("providers")
 export class ProvidersController {
@@ -71,22 +71,18 @@ export class ProvidersController {
     };
   }
 
-  // @Patch(':id')
-  // async update(
-  //   @Param('id') id: string,
-  //   @Body() updateUserDto: UpdateUserDto,
-  //   @Request() req: { user: User },
-  // ) {
-  //   if (!isAppropriateViewer(req.user, [ROLE.ADMIN], id))
-  //     throw new UnauthorizedException();
+  @Patch(':id')
+  async update(
+    @Param('id') id: string,
+    @Body() updateProviderDto: UpdateProviderDto,
+  ) {
+    const updatedUser = await this.providersService.update(id, updateProviderDto);
 
-  //   const updatedUser = await this.usersService.update(id, updateUserDto);
-
-  //   return {
-  //     status: updatedUser ? STATUS.SUCCESS : STATUS.ERROR,
-  //     data: updatedUser ? MESSAGES.UPDATE_SUCCESS : MESSAGES.UPDATE_ERROR,
-  //   };
-  // }
+    return {
+      status: updatedUser ? STATUS.SUCCESS : STATUS.ERROR,
+      data: updatedUser ? MESSAGES.UPDATE_SUCCESS : MESSAGES.UPDATE_ERROR,
+    };
+  }
 
   // @Roles(ROLE.ADMIN)
   // @Delete(':id')
