@@ -16,7 +16,7 @@ import { MESSAGES, ROLE, STATUS } from "../const";
 import { Products } from "./schemas/products.schema";
 import { ProductsService } from "./products.service";
 import { CreateProductDto } from "./dto/create-product.dto";
-// import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
 
 @Controller("products")
 export class ProductsController {
@@ -66,22 +66,18 @@ export class ProductsController {
     };
   }
 
-  // @Patch(':id')
-  // async update(
-  //   @Param('id') id: string,
-  //   @Body() updateUserDto: UpdateUserDto,
-  //   @Request() req: { user: User },
-  // ) {
-  //   if (!isAppropriateViewer(req.user, [ROLE.ADMIN], id))
-  //     throw new UnauthorizedException();
+  @Patch(':id')
+  async update(
+    @Param('id') id: string,
+    @Body() updateProductDto: UpdateProductDto,
+  ) {
+    const updatedUser = await this.productsService.update(id, updateProductDto);
 
-  //   const updatedUser = await this.usersService.update(id, updateUserDto);
-
-  //   return {
-  //     status: updatedUser ? STATUS.SUCCESS : STATUS.ERROR,
-  //     data: updatedUser ? MESSAGES.UPDATE_SUCCESS : MESSAGES.UPDATE_ERROR,
-  //   };
-  // }
+    return {
+      status: updatedUser ? STATUS.SUCCESS : STATUS.ERROR,
+      data: updatedUser ? MESSAGES.UPDATE_SUCCESS : MESSAGES.UPDATE_ERROR,
+    };
+  }
 
   // @Roles(ROLE.ADMIN)
   // @Delete(':id')

@@ -43,7 +43,6 @@ import {
       };
     }
   
-    @Roles(ROLE.ADMIN)
     @Get()
     async findAll(
       @Request() req: { [key: string]: any }
@@ -56,7 +55,6 @@ import {
       };
     }
   
-    @Roles(ROLE.ADMIN)
     @Get(":id")
     async findOne(
       @Param("id") id: string

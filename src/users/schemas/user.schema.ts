@@ -9,7 +9,7 @@ export type UserDocument = User & Document;
 
 @Schema()
 export class User {
-  @Prop({ ...IS_REQUIRED, ...IS_UNIQUE, ...IS_STRING })
+  @Prop({ ...IS_REQUIRED, ...IS_STRING })
   email_address: string;
 
   // @Prop({ ...IS_REQUIRED, enum: [GENDERS.MALE, GENDERS.FEMALE], ...IS_STRING })

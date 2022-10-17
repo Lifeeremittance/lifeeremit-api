@@ -8,14 +8,14 @@ import {
 import { InjectModel } from "@nestjs/mongoose";
 import { Providers, ProviderDocument } from "./schemas/provider.schema";
 import { CreateProviderDto } from "./dto/create-provider.dto";
+import { UpdateProviderDto } from "./dto/update-provider.dto";
 import { EMAILS, MESSAGES, ORDER_STATUS } from "../const";
 
 @Injectable()
 export class ProvidersService {
   constructor(
-    @InjectModel(Providers.name) private providerModel: Model<ProviderDocument>
-  ) // private mailService: MailService,
-  {}
+    @InjectModel(Providers.name) private providerModel: Model<ProviderDocument> // private mailService: MailService,
+  ) {}
 
   statusList(): Promise<string[]> {
     return Promise.resolve(Object.values(ORDER_STATUS)?.sort());
@@ -46,18 +46,18 @@ export class ProvidersService {
     return user;
   }
 
-  // async update(
-  //   _id: string,
-  //   updateUserDto: UpdateUserDto,
-  // ): Promise<User | null> {
-  //   return this.userModel
-  //     .findOneAndUpdate(
-  //       { _id },
-  //       { ...updateUserDto, updated_at: new Date() },
-  //       { new: true },
-  //     )
-  //     .exec();
-  // }
+  async update(
+    _id: string,
+    updateProviderDto: UpdateProviderDto
+  ): Promise<Providers | null> {
+    return this.providerModel
+      .findOneAndUpdate(
+        { _id },
+        { ...updateProviderDto, updated_at: new Date() },
+        { new: true }
+      )
+      .exec();
+  }
 
   async remove(_id: string): Promise<Providers | null> {
     return this.providerModel.findOneAndRemove({ _id }).exec();

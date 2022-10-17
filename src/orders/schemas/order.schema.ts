@@ -62,6 +62,9 @@ export class Order {
   @Prop({ ...IS_REQUIRED, ...IS_STRING })
   phone_number: string;
 
+  @Prop({ ...IS_REQUIRED, ...IS_STRING })
+  order_number: string;
+
   @Prop({ ...IS_STRING })
   email_address: string;
 

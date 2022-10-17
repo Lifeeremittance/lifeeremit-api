@@ -17,12 +17,12 @@ import {
   MESSAGES,
   ROLE,
   STATUS,
-  NOTIFICATION_MESSAGES,
   ORDER_STATUS,
 } from "../const";
 import { Roles } from "../decorators/roles.decorator";
 import { User } from "../users/schemas/user.schema";
 import { whoAmI } from "../utils/who-am-I";
+import { generateOrderNumber } from "../utils/generate-order-number";
 
 import { MailService } from "../mail/mail.service";
 import { UsersService } from "../users/users.service";
@@ -45,13 +45,14 @@ export class OrdersController {
     const { _id } = req.user;
 
     const user = await this.usersService.findOne({ _id });
+    if (!user) throw new UnprocessableEntityException(MESSAGES.USER_NOT_FOUND);
 
-    const email_address =
-      createOrderDto.email_address || (user && user.email_address);
-
+    const order_number = generateOrderNumber();
+    
     const createdOrder: Order = await this.ordersService.create({
       ...createOrderDto,
       user: _id,
+      order_number,
     });
 
     return {
@@ -65,7 +66,6 @@ export class OrdersController {
     // const requester = req.user?._id ?? "";
 
     const { isUser } = whoAmI(req.user.roles);
-    // console.log(isAdmin, isUser);
 
     const query = {
       ...(isUser && { user: req.user._id }),
@@ -103,7 +103,6 @@ export class OrdersController {
     const prunedUpdateOrderDtoArray = Object.keys(prunedUpdateOrderDto);
 
     const isUpdatingStatus = prunedUpdateOrderDtoArray.includes("status");
-    const isCompleted = prunedUpdateOrderDto.status === ORDER_STATUS.COMPLETED;
 
     if (isUpdatingStatus) {
       prunedUpdateOrderDto = {

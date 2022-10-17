@@ -8,6 +8,7 @@ import {
 import { InjectModel } from "@nestjs/mongoose";
 import { Products, ProductDocument } from "./schemas/products.schema";
 import { CreateProductDto } from "./dto/create-product.dto";
+import { UpdateProductDto } from "./dto/update-product.dto";
 import { EMAILS, MESSAGES, ORDER_STATUS } from "../const";
 
 @Injectable()
@@ -52,18 +53,18 @@ export class ProductsService {
     return user;
   }
 
-  // async update(
-  //   _id: string,
-  //   updateUserDto: UpdateUserDto,
-  // ): Promise<User | null> {
-  //   return this.userModel
-  //     .findOneAndUpdate(
-  //       { _id },
-  //       { ...updateUserDto, updated_at: new Date() },
-  //       { new: true },
-  //     )
-  //     .exec();
-  // }
+  async update(
+    _id: string,
+    updateProductDto: UpdateProductDto
+  ): Promise<Products | null> {
+    return this.providerModel
+      .findOneAndUpdate(
+        { _id },
+        { ...updateProductDto, updated_at: new Date() },
+        { new: true }
+      )
+      .exec();
+  }
 
   async remove(_id: string): Promise<Products | null> {
     return this.providerModel.findOneAndRemove({ _id }).exec();
