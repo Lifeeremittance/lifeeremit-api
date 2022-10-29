@@ -66,6 +66,10 @@ export class AuthService {
 
     if (user.token !== token) return null;
 
+    // check if entity is admin and user is not admin
+    if (entity === LOGIN_ENTITIES.ADMIN && !user.roles.includes(ROLE.ADMIN))
+      return null;
+
     await this.usersService.update(user._id, { token: "" });
 
     return user?._doc;
