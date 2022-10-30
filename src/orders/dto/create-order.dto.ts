@@ -1,5 +1,6 @@
 import {
   IsEmail,
+  IsEmpty,
   IsMongoId,
   IsNotEmpty,
   IsNotEmptyObject,
@@ -37,19 +38,18 @@ export class CreateOrderDto {
 
   @IsNotEmpty()
   @IsString()
-  @Length(3, 30)
+  @Length(3, 100)
   readonly company_name: string;
 
   @IsOptional()
   @IsNotEmpty()
   @IsString()
-  @Length(3, 30)
   readonly company_address: string;
 
   @IsOptional()
   @IsNotEmpty()
   @IsString()
-  @Length(3, 30)
+  @Length(3, 50)
   readonly contact_name: string;
 
   @IsNotEmpty()
@@ -65,7 +65,6 @@ export class CreateOrderDto {
   @IsOptional()
   @IsNotEmpty()
   @IsString()
-  @Length(6, 200)
   readonly reason: string;
 
   @IsOptional()

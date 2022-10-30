@@ -14,6 +14,9 @@ export class Charges {
   @Prop({ ...IS_REQUIRED, ...IS_STRING })
   productInterest: string;
 
+  @Prop({ ...IS_REQUIRED, ...IS_STRING })
+  dollarRate: string;
+
   @Prop({ ...IS_NUMBER, ...NOW })
   created_at: Date;
 
