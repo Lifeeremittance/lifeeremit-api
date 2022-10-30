@@ -39,7 +39,6 @@ export class CreateUserDto {
   readonly phone_number: string;
 
   @IsString()
-  @Length(3, 30)
   // @IsAlphanumeric()
   readonly address: string;
 }

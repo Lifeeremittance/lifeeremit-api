@@ -8,4 +8,8 @@ export class UpdateChargeDto {
   @IsNotEmpty()
   @IsString()
   readonly productInterest: string;
+
+  @IsNotEmpty()
+  @IsString()
+  readonly dollarRate: string;
 }
