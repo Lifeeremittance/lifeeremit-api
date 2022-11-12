@@ -26,6 +26,7 @@ export class CreateOrderDto {
   @IsMongoId()
   readonly product: string;
 
+  @IsOptional()
   @IsNotEmpty()
   @IsString()
   @Length(3, 30)
