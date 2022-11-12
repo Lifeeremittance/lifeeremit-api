@@ -44,7 +44,6 @@ export class Order {
   product: Products;
 
   @Prop({
-    ...IS_REQUIRED,
     type: mongoose.Schema.Types.ObjectId,
     ref: Countries.name,
     autopopulate: true,
