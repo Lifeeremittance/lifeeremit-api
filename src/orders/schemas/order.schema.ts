@@ -91,6 +91,9 @@ export class Order {
   @Prop({ ...IS_STRING })
   invoice: string;
 
+  @Prop({ ...IS_STRING })
+  admin_invoice: string;
+
   @Prop({ ...IS_STRING, default: "" })
   rate: string;
 
