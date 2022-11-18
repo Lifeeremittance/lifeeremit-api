@@ -112,6 +112,15 @@ export class Order {
   @Prop({ ...IS_STRING, default: "" })
   temp_key_exp_date: string;
 
+  @Prop({ ...IS_STRING, default: "" })
+  service_charge: string;
+
+  @Prop({ ...IS_STRING, default: "" })
+  product_interest: string;
+
+  @Prop({ ...IS_STRING, default: "" })
+  dollar_rate: string;
+
   @Prop({ ...IS_NUMBER, ...NOW })
   created_at: Date;
 

@@ -57,6 +57,21 @@ export class UpdateOrderDto extends PartialType(CreateOrderDto) {
   @IsNotEmpty()
   @IsString()
   readonly license_key_exp_date: string;
+
+  @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  readonly service_charge: string;
+
+  @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  readonly product_interest: string;
+
+  @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  readonly dollar_rate: string;
 }
 
 validate(UpdateOrderDto, { skipMissingProperties: true });
