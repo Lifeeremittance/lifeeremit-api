@@ -72,6 +72,11 @@ export class UpdateOrderDto extends PartialType(CreateOrderDto) {
   @IsNotEmpty()
   @IsString()
   readonly dollar_rate: string;
+
+  @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  readonly admin_invoice: string;
 }
 
 validate(UpdateOrderDto, { skipMissingProperties: true });
