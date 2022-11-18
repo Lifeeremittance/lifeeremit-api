@@ -14,6 +14,9 @@ export class HandleWebhookDto {
       product_value: string;
       rate: string;
       currency: string;
+      service_charge: string;
+      product_interest: string;
+      dollar_rate: string;
     };
     status: string;
   };

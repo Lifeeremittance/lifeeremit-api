@@ -32,8 +32,18 @@ export class WebhooksController {
 
     // if (!isTrusted) throw new UnauthorizedException();
 
-    const { event, status, amount, orderId, product_value, rate, currency } =
-      await this.webhooksService.extractPaymentData(handleWebhookDto);
+    const {
+      event,
+      status,
+      amount,
+      orderId,
+      product_value,
+      rate,
+      currency,
+      service_charge,
+      product_interest,
+      dollar_rate,
+    } = await this.webhooksService.extractPaymentData(handleWebhookDto);
 
     if (event !== CHARGE_STATUS.PAYSTACK_SUCCESS || status !== "success")
       throw new UnprocessableEntityException();
@@ -56,6 +66,9 @@ export class WebhooksController {
         product_value,
         rate,
         currency,
+        service_charge,
+        product_interest,
+        dollar_rate,
       }
     );
 

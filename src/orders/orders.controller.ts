@@ -67,6 +67,8 @@ export class OrdersController {
 
     const { isUser } = whoAmI(req.user.roles);
 
+    const { status } = req.query;
+
     const query = {
       ...(isUser && { user: req.user._id }),
       ...req.query,
@@ -75,6 +77,10 @@ export class OrdersController {
     console.log(query);
 
     let orders = await this.ordersService.findAll(query);
+
+    if (status) {
+      orders = orders.filter((order) => last(order.status) === status);
+    }
 
     return {
       status: STATUS.SUCCESS,
