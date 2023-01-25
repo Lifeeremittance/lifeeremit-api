@@ -8,11 +8,17 @@ import {
   IsNotEmpty,
   IsString,
   Length,
+  IsOptional,
   // ValidateIf,
 } from "class-validator";
 import { ROLE } from "../../const";
 
 export class CreateUserDto {
+  @IsString()
+  @Length(6, 30)
+  @IsOptional()
+  readonly fullName: string;
+
   @IsNotEmpty()
   @IsEmail()
   readonly email_address: string;
