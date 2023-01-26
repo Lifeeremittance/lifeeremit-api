@@ -86,4 +86,19 @@ export class AuthService {
       access_token: await this.jwtService.signAsync(payload),
     };
   }
+
+  async sendNewsletter(email_address: string): Promise<boolean> {
+    const emailBody = {
+      from: '"LIFEEREMIT" <lifeeremit@gmail.com>',
+      to: "info@lifeeremit.com",
+      subject: "LIFEEREMIT newsletter submit",
+      html: `${email_address} just signed up to the lifeeremit newsletter`,
+    };
+
+    sgMail.setApiKey(process.env.MAIL_PASSWORD);
+
+    sgMail.send(emailBody);
+
+    return true;
+  }
 }
