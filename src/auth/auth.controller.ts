@@ -16,6 +16,7 @@ import { LocalAuthGuard } from "./../auth/guards/local-auth.guard";
 import { Public } from "./../decorators/is-public.decorator";
 import { ENVIRONMENT, RESPONSES, STATUS } from "./../const";
 import { RequestTokenDto } from "./dto/request-token.dto";
+import { SendNewsletterDto } from "./dto/send-newsletter.dto";
 
 @Controller()
 export class AuthController {
@@ -63,6 +64,19 @@ export class AuthController {
     return {
       status: user ? STATUS.SUCCESS : STATUS.ERROR,
       data: user,
+    };
+  }
+
+  @Public()
+  @Post("newsletter")
+  async create(@Body() sendNewsletterDto: SendNewsletterDto) {
+    const { email_address } = sendNewsletterDto;
+
+    const createdUser = await this.authService.sendNewsletter(email_address);
+
+    return {
+      status: STATUS.SUCCESS,
+      data: 'Newsletter subscription successful',
     };
   }
 }
