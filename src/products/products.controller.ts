@@ -40,6 +40,7 @@ export class ProductsController {
     };
   }
 
+  @Public()
   @Get()
   async findAll(
     @Request() req: { [key: string]: any }
