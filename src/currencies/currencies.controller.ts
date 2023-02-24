@@ -43,6 +43,7 @@ import {
       };
     }
   
+    @Public()
     @Get()
     async findAll(
       @Request() req: { [key: string]: any }

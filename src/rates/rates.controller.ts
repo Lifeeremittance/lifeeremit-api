@@ -44,6 +44,7 @@ export class RatesController {
     };
   }
 
+  @Public()
   @Get(":id")
   async findOne(
     @Param("id") id: string,
