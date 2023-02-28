@@ -30,6 +30,7 @@ export class ChargesController {
     };
   }
 
+  @Public()
   @Get()
   async findAll(
     @Request() req: { [key: string]: any }
