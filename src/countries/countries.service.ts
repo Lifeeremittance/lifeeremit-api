@@ -8,6 +8,7 @@ import {
 import { InjectModel } from "@nestjs/mongoose";
 import { Countries, CountryDocument } from "./schemas/country.schema";
 import { CreateCountryDto } from "./dto/create-country-dto";
+import { UpdateCountryDto } from "./dto/update-country-dto";
 import { MESSAGES } from "../const";
 
 @Injectable()
@@ -42,18 +43,18 @@ export class CountriesService {
     return country;
   }
 
-  // async update(
-  //   _id: string,
-  //   updateUserDto: UpdateUserDto,
-  // ): Promise<User | null> {
-  //   return this.userModel
-  //     .findOneAndUpdate(
-  //       { _id },
-  //       { ...updateUserDto, updated_at: new Date() },
-  //       { new: true },
-  //     )
-  //     .exec();
-  // }
+  async update(
+    _id: string,
+    updateCountryDto: UpdateCountryDto
+  ): Promise<Countries | null> {
+    return this.countriesModel
+      .findOneAndUpdate(
+        { _id },
+        { ...updateCountryDto, updated_at: new Date() },
+        { new: true }
+      )
+      .exec();
+  }
 
   async remove(_id: string): Promise<Countries | null> {
     return this.countriesModel.findOneAndRemove({ _id }).exec();

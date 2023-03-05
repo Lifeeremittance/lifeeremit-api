@@ -16,7 +16,7 @@ import { MESSAGES, ROLE, STATUS } from "../const";
 import { Countries } from "./schemas/country.schema";
 import { CountriesService } from "./countries.service";
 import { CreateCountryDto } from "./dto/create-country-dto";
-// import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateCountryDto } from './dto/update-country-dto';
 
 @Controller("countries")
 export class CountriesController {
@@ -56,22 +56,18 @@ export class CountriesController {
     };
   }
 
-  // @Patch(':id')
-  // async update(
-  //   @Param('id') id: string,
-  //   @Body() updateUserDto: UpdateUserDto,
-  //   @Request() req: { user: User },
-  // ) {
-  //   if (!isAppropriateViewer(req.user, [ROLE.ADMIN], id))
-  //     throw new UnauthorizedException();
+  @Patch(":id")
+  async update(
+    @Param("id") id: string,
+    @Body() updateCountryDto: UpdateCountryDto
+  ) {
+    const updatedCurrency = await this.countriesService.update(id, updateCountryDto);
 
-  //   const updatedUser = await this.usersService.update(id, updateUserDto);
-
-  //   return {
-  //     status: updatedUser ? STATUS.SUCCESS : STATUS.ERROR,
-  //     data: updatedUser ? MESSAGES.UPDATE_SUCCESS : MESSAGES.UPDATE_ERROR,
-  //   };
-  // }
+    return {
+      status: updatedCurrency ? STATUS.SUCCESS : STATUS.ERROR,
+      data: updatedCurrency ? MESSAGES.UPDATE_SUCCESS : MESSAGES.UPDATE_ERROR,
+    };
+  }
 
   @Roles(ROLE.ADMIN)
   @Delete(":id")
