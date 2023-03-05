@@ -8,6 +8,7 @@ import {
 import { InjectModel } from "@nestjs/mongoose";
 import { Currencies, CurrencyDocument } from "./schemas/currency.schema";
 import { CreateCurrencyDto } from "./dto/create-currency-dto";
+import { UpdatCurrencyDto } from "./dto/update-currency.dto";
 import { MESSAGES } from "../const";
 
 @Injectable()
@@ -43,18 +44,18 @@ export class CurrenciesService {
     return currency;
   }
 
-  // async update(
-  //   _id: string,
-  //   updateUserDto: UpdateUserDto,
-  // ): Promise<User | null> {
-  //   return this.userModel
-  //     .findOneAndUpdate(
-  //       { _id },
-  //       { ...updateUserDto, updated_at: new Date() },
-  //       { new: true },
-  //     )
-  //     .exec();
-  // }
+  async update(
+    _id: string,
+    updateCurrencyDto: UpdatCurrencyDto
+  ): Promise<Currencies | null> {
+    return this.currenciesModel
+      .findOneAndUpdate(
+        { _id },
+        { ...updateCurrencyDto, updated_at: new Date() },
+        { new: true }
+      )
+      .exec();
+  }
 
   async remove(_id: string): Promise<Currencies | null> {
     return this.currenciesModel.findOneAndRemove({ _id }).exec();
