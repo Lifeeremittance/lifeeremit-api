@@ -13,6 +13,7 @@ import { ZohoService } from "../zoho/zoho.service";
 import { ProductsService } from "../products/products.service";
 import { UsersService } from "../users/users.service";
 import { HandleWebhookDto } from "./dto/handle-webhook.dto";
+import { sendNotification, EMAIL_TEMPLATES } from "./../utils/email-send";
 import { CHARGE_STATUS, MESSAGES, ORDER_STATUS, STATUS } from "../const";
 
 @Public()
@@ -116,19 +117,59 @@ export class WebhooksController {
       ],
     });
 
-    // console.log(res);
-
     const {
       invoice: { invoice_id, invoice_url },
     } = res;
 
-    const invoiceStatus = await this.zohoService.setInvoiceStatus(
-      access_token,
-      { invoice_id }
-    );
-    console.log(invoiceStatus);
+    await this.zohoService.setInvoiceStatus(access_token, { invoice_id });
 
-    // console.log(invoice_id, invoice_url, res, invoiceStatus);
+    await sendNotification({
+      recipient: user.email_address,
+      templateId: EMAIL_TEMPLATES.PAYMENT_DETAILS,
+      substitutions: {
+        name: user.fullName,
+        transaction_no: order.order_number,
+        company_name: order.company_name || user.companyName,
+        company_address: order.company_address || user.address,
+        product: order.product.name,
+        provider: order.provider.name,
+        date: new Date().toLocaleDateString("en-US", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        }),
+        status: "Success",
+        amount,
+        rate,
+        amount_paid: product_value,
+        reference_no: order.reference_number,
+        invoice_no: order.invoice_number,
+        reason: order.reason,
+      },
+    });
+
+    await sendNotification({
+      recipient: user.email_address,
+      templateId: EMAIL_TEMPLATES.CUSTOMER_RECEIPT,
+      substitutions: {
+        name: user.fullName,
+        transaction_no: order.order_number,
+        product: order.product.name,
+        date: new Date().toLocaleDateString("en-US", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        }),
+        amount,
+        rate,
+        product_value: product_value,
+        reason: order.reason,
+        temp_key: order.temp_key || "N/A",
+        license_key: order.license_key || "N/A",
+        charge: service_charge,
+        interest: product_interest,
+      },
+    });
 
     const updatedOrder = await this.ordersService.update(
       { _id: orderId },
