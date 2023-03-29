@@ -6,6 +6,7 @@ import { UsersService } from "./../users/users.service";
 import { User, UserDocument } from "./../users/schemas/user.schema";
 import { generateToken } from "./../utils/generate-token";
 import { MailService } from "./../mail/mail.service";
+import { sendNotification, EMAIL_TEMPLATES } from "./../utils/email-send";
 import { CACHE_KEYS, EMAILS, LOGIN_ENTITIES, ROLE } from "./../const";
 
 @Injectable()
@@ -43,16 +44,25 @@ export class AuthService {
     // save token in user schema
     await this.usersService.update(user._id, { token });
 
-    const emailBody = {
-      from: '"Lifeeremit" <lifeeremit@gmail.com>',
-      to: email_address,
-      subject: "LIFEEREMIT email verification",
-      html: token,
-    };
+    // const emailBody = {
+    //   from: '"Lifeeremit" <lifeeremit@gmail.com>',
+    //   to: email_address,
+    //   subject: "LIFEEREMIT email verification",
+    //   html: token,
+    // };
 
-    sgMail.setApiKey(process.env.MAIL_PASSWORD);
+    // sgMail.setApiKey(process.env.MAIL_PASSWORD);
 
-    await sgMail.send(emailBody);
+    // await sgMail.send(emailBody);
+
+    await sendNotification({
+      recipient: email_address,
+      templateId: EMAIL_TEMPLATES.LOGIN,
+      substitutions: {
+        name: user.fullName,
+        token,
+      },
+    });
 
     // await this.mailService.sendMail(
     //   email_address,

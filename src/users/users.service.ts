@@ -9,6 +9,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { User, UserDocument } from "./schemas/user.schema";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
+import { sendNotification, EMAIL_TEMPLATES } from "./../utils/email-send";
 // import { generateToken } from '@/utils/generate-token';
 // import { MailService } from '@/mail/mail.service';
 import { EMAILS, MESSAGES, ORDER_STATUS } from "../const";
@@ -29,6 +30,14 @@ export class UsersService {
     const createdUser = new this.userModel(createUserDto);
 
     if (!createdUser._id) throw new UnprocessableEntityException();
+
+    await sendNotification({
+      recipient: createdUser.email_address,
+      templateId: EMAIL_TEMPLATES.WELCOME,
+      substitutions: {
+        name: createdUser.fullName,
+      },
+    });
 
     //   await this.mailService.sendMail(
     //     createdUser.email_address,
