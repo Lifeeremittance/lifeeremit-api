@@ -23,11 +23,6 @@ export class CreateUserDto {
   @IsEmail()
   readonly email_address: string;
 
-  // @IsNotEmpty()
-  // @IsString()
-  // @IsIn(Object.values(GENDERS))
-  // readonly gender: GENDERS;
-
   @IsArray()
   @ArrayNotEmpty()
   @ArrayMaxSize(Object.keys(ROLE).length)
@@ -47,4 +42,9 @@ export class CreateUserDto {
   @IsString()
   // @IsAlphanumeric()
   readonly address: string;
+
+  @IsString()
+  @Length(3, 30)
+  @IsOptional()      
+  readonly contact_id: string;
 }

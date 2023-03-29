@@ -24,6 +24,9 @@ export class Products {
   @Prop({ ...IS_REQUIRED, ...IS_BOOLEAN, default: true })
   is_active: boolean;
 
+  @Prop({ ...IS_REQUIRED, ...IS_STRING })
+  item_id: string;
+
   @Prop({ ...IS_NUMBER, ...NOW })
   created_at: Date;
 

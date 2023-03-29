@@ -5,7 +5,6 @@ import {
   Body,
   Patch,
   Param,
-  Delete,
   Request,
   UnauthorizedException,
   UnprocessableEntityException,
@@ -16,12 +15,16 @@ import { Public } from "../decorators/is-public.decorator";
 import { MESSAGES, ROLE, STATUS } from "../const";
 import { User } from "./schemas/user.schema";
 import { UsersService } from "./users.service";
+import { ZohoService } from "../zoho/zoho.service";
 import { CreateUserDto } from "./dto/create-user.dto";
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateUserDto } from "./dto/update-user.dto";
 
 @Controller("users")
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly zohoService: ZohoService
+  ) {}
 
   @Public()
   @Post()
@@ -39,7 +42,21 @@ export class UsersController {
     if (existingUser)
       throw new UnprocessableEntityException(MESSAGES.EXISTING_USER);
 
-    const createdUser = await this.usersService.create(createUserDto);
+    const { access_token } = await this.zohoService.getAccessToken();
+
+    const res = await this.zohoService.createContact(access_token, {
+      contact_name: createUserDto.fullName,
+      company_name: createUserDto.companyName,
+    });
+
+    const {
+      contact: { contact_id },
+    } = res;
+
+    const createdUser = await this.usersService.create({
+      ...createUserDto,
+      contact_id,
+    });
 
     return {
       status: STATUS.SUCCESS,
@@ -74,7 +91,7 @@ export class UsersController {
     };
   }
 
-  @Roles(ROLE.ADMIN)
+  @Public()
   @Get("/user/:id")
   async findOneById(
     @Param("id") id: string
@@ -87,11 +104,11 @@ export class UsersController {
     };
   }
 
-  @Patch(':id')
+  @Patch(":id")
   async update(
-    @Param('id') id: string,
+    @Param("id") id: string,
     @Body() updateUserDto: UpdateUserDto,
-    @Request() req: { user: User },
+    @Request() req: { user: User }
   ) {
     const updatedUser = await this.usersService.update(id, updateUserDto);
 
