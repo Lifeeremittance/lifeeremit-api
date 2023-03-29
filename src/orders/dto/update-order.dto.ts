@@ -77,6 +77,11 @@ export class UpdateOrderDto extends PartialType(CreateOrderDto) {
   @IsNotEmpty()
   @IsString()
   readonly admin_invoice: string;
+
+  @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  readonly zoho_invoice: string;
 }
 
 validate(UpdateOrderDto, { skipMissingProperties: true });

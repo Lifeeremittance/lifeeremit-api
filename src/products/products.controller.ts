@@ -15,12 +15,16 @@ import { Public } from "../decorators/is-public.decorator";
 import { MESSAGES, ROLE, STATUS } from "../const";
 import { Products } from "./schemas/products.schema";
 import { ProductsService } from "./products.service";
+import { ZohoService } from "../zoho/zoho.service";
 import { CreateProductDto } from "./dto/create-product.dto";
-import { UpdateProductDto } from './dto/update-product.dto';
+import { UpdateProductDto } from "./dto/update-product.dto";
 
 @Controller("products")
 export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {}
+  constructor(
+    private readonly productsService: ProductsService,
+    private readonly zohoService: ZohoService
+  ) {}
 
   @Roles(ROLE.ADMIN)
   @Post()
@@ -32,7 +36,21 @@ export class ProductsController {
     if (existingProduct)
       throw new UnprocessableEntityException(MESSAGES.EXISTING_PRODUCT);
 
-    const createdProduct = await this.productsService.create(createProductDto);
+    const { access_token } = await this.zohoService.getAccessToken();
+
+    const res = await this.zohoService.createItem(access_token, {
+      name: createProductDto.name,
+      rate: 1,
+    });
+
+    const {
+      item: { item_id },
+    } = res;
+
+    const createdProduct = await this.productsService.create({
+      ...createProductDto,
+      item_id,
+    });
 
     return {
       status: STATUS.SUCCESS,
@@ -66,10 +84,10 @@ export class ProductsController {
     };
   }
 
-  @Patch(':id')
+  @Patch(":id")
   async update(
-    @Param('id') id: string,
-    @Body() updateProductDto: UpdateProductDto,
+    @Param("id") id: string,
+    @Body() updateProductDto: UpdateProductDto
   ) {
     const updatedUser = await this.productsService.update(id, updateProductDto);
 

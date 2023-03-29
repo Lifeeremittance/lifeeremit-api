@@ -2,8 +2,7 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
 import { ROLE, SCHEMA_DEFAULTS } from "../../const";
 
-const { IS_FALSE, IS_REQUIRED, IS_UNIQUE, IS_NUMBER, NOW, IS_USER, IS_STRING } =
-  SCHEMA_DEFAULTS;
+const { IS_REQUIRED, IS_NUMBER, NOW, IS_USER, IS_STRING } = SCHEMA_DEFAULTS;
 
 export type UserDocument = User & Document;
 
@@ -32,6 +31,9 @@ export class User {
 
   @Prop({ ...IS_REQUIRED, ...IS_STRING })
   companyName: string;
+
+  @Prop({ ...IS_REQUIRED, ...IS_STRING })
+  contact_id: string;
 
   @Prop({ ...IS_REQUIRED, ...IS_STRING })
   address: string;

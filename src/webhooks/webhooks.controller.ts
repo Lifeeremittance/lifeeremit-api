@@ -9,6 +9,9 @@ import {
 import { Public } from "../decorators/is-public.decorator";
 import { OrdersService } from "../orders/orders.service";
 import { WebhooksService } from "./webhooks.service";
+import { ZohoService } from "../zoho/zoho.service";
+import { ProductsService } from "../products/products.service";
+import { UsersService } from "../users/users.service";
 import { HandleWebhookDto } from "./dto/handle-webhook.dto";
 import { CHARGE_STATUS, MESSAGES, ORDER_STATUS, STATUS } from "../const";
 
@@ -17,7 +20,10 @@ import { CHARGE_STATUS, MESSAGES, ORDER_STATUS, STATUS } from "../const";
 export class WebhooksController {
   constructor(
     private readonly webhooksService: WebhooksService,
-    private readonly ordersService: OrdersService
+    private readonly ordersService: OrdersService,
+    private readonly zohoService: ZohoService,
+    private readonly productsService: ProductsService,
+    private readonly usersService: UsersService
   ) {}
 
   @Post("/paystack")
@@ -54,6 +60,76 @@ export class WebhooksController {
 
     if (!order) throw new UnprocessableEntityException();
 
+    const product = await this.productsService.findOne({
+      _id: order.product,
+    });
+
+    const user = await this.usersService.findOne({
+      _id: order.user,
+    });
+
+    const { access_token } = await this.zohoService.getAccessToken();
+
+    const res = await this.zohoService.createInvoice(access_token, {
+      customer_id: user.contact_id,
+      date: new Date().toISOString().split("T")[0],
+      line_items: [
+        {
+          item_id: product.item_id,
+          quantity: 1,
+          rate: product_value,
+        },
+      ],
+      custom_fields: [
+        {
+          label: "Transaction No",
+          value: order.order_number.replace(/-/g, ""),
+        },
+        {
+          label: "Temp Key",
+          value: order.temp_key,
+        },
+        {
+          label: "License Key",
+          value: order.license_key,
+        },
+        {
+          label: "Exchange Rate",
+          value: rate,
+        },
+        {
+          label: "Interest Charge",
+          value: product_interest,
+        },
+        {
+          label: "Service Charge",
+          value: service_charge,
+        },
+        {
+          label: "Reference No",
+          value: order.reference_number,
+        },
+        {
+          label: "Provider",
+          value: order.provider.name,
+        },
+      ],
+    });
+
+    // console.log(res);
+
+    const {
+      invoice: { invoice_id, invoice_url },
+    } = res;
+
+    const invoiceStatus = await this.zohoService.setInvoiceStatus(
+      access_token,
+      { invoice_id }
+    );
+    console.log(invoiceStatus);
+
+    // console.log(invoice_id, invoice_url, res, invoiceStatus);
+
     const updatedOrder = await this.ordersService.update(
       { _id: orderId },
       {
@@ -69,6 +145,7 @@ export class WebhooksController {
         service_charge,
         product_interest,
         dollar_rate,
+        zoho_invoice: invoice_url,
       }
     );
 

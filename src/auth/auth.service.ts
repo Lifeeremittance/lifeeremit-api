@@ -5,6 +5,7 @@ import * as sgMail from "@sendgrid/mail";
 import { UsersService } from "./../users/users.service";
 import { User, UserDocument } from "./../users/schemas/user.schema";
 import { generateToken } from "./../utils/generate-token";
+import { MailService } from "./../mail/mail.service";
 import { CACHE_KEYS, EMAILS, LOGIN_ENTITIES, ROLE } from "./../const";
 
 @Injectable()
@@ -12,6 +13,7 @@ export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
+    private mailService: MailService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache
   ) {}
 
@@ -42,7 +44,7 @@ export class AuthService {
     await this.usersService.update(user._id, { token });
 
     const emailBody = {
-      from: '"LIFEEREMIT" <lifeeremit@gmail.com>',
+      from: '"Lifeeremit" <lifeeremit@gmail.com>',
       to: email_address,
       subject: "LIFEEREMIT email verification",
       html: token,
@@ -50,7 +52,14 @@ export class AuthService {
 
     sgMail.setApiKey(process.env.MAIL_PASSWORD);
 
-    sgMail.send(emailBody);
+    await sgMail.send(emailBody);
+
+    // await this.mailService.sendMail(
+    //   email_address,
+    //   EMAILS.CONFIRMATION.SUBJECT,
+    //   'confirmation',
+    //   { username: user.fullName, token }
+    // );
 
     return true;
   }

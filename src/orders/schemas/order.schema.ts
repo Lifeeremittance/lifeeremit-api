@@ -124,6 +124,9 @@ export class Order {
   @Prop({ ...IS_STRING, default: "" })
   dollar_rate: string;
 
+  @Prop({ ...IS_STRING, default: "" })
+  zoho_invoice: string;
+
   @Prop({ ...IS_NUMBER, ...NOW })
   created_at: Date;
 
