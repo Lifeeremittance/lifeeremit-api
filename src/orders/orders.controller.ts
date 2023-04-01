@@ -48,7 +48,7 @@ export class OrdersController {
     if (!user) throw new UnprocessableEntityException(MESSAGES.USER_NOT_FOUND);
 
     const order_number = generateOrderNumber();
-    
+
     const createdOrder: Order = await this.ordersService.create({
       ...createOrderDto,
       user: _id,
@@ -67,7 +67,7 @@ export class OrdersController {
 
     const { isUser } = whoAmI(req.user.roles);
 
-    const { status } = req.query;
+    const { status, minTime } = req.query;
 
     const query = {
       ...(isUser && { user: req.user._id }),
@@ -80,6 +80,10 @@ export class OrdersController {
 
     if (status) {
       orders = orders.filter((order) => last(order.status) === status);
+    }
+
+    if (minTime) {
+      orders = orders.filter((order) => order.created_at <= minTime);
     }
 
     return {

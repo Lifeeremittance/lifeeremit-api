@@ -131,7 +131,7 @@ export class WebhooksController {
         transaction_no: order.order_number,
         company_name: order.company_name || user.companyName,
         company_address: order.company_address || user.address,
-        product: order.product.name,
+        product: product.name,
         provider: order.provider.name,
         date: new Date().toLocaleDateString("en-US", {
           day: "numeric",
@@ -168,6 +168,7 @@ export class WebhooksController {
         license_key: order.license_key || "N/A",
         charge: service_charge,
         interest: product_interest,
+        provider: order.provider.name,
       },
     });
 
