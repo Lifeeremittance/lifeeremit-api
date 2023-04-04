@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { Document } from "mongoose";
 import { Providers } from "../../providers/schemas/provider.schema";
 import { SCHEMA_DEFAULTS } from "../../const";
+import { IS_EMAIL } from "class-validator";
 
 const { IS_REQUIRED, IS_UNIQUE, IS_NUMBER, NOW, IS_STRING, IS_BOOLEAN } =
   SCHEMA_DEFAULTS;
@@ -26,6 +27,9 @@ export class Products {
 
   @Prop({ ...IS_REQUIRED, ...IS_STRING })
   item_id: string;
+
+  @Prop({ ...IS_REQUIRED, ...IS_STRING })
+  email: string;
 
   @Prop({ ...IS_NUMBER, ...NOW })
   created_at: Date;

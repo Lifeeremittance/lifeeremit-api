@@ -172,6 +172,29 @@ export class WebhooksController {
       },
     });
 
+    await sendNotification({
+      recipient: product.email,
+      templateId: EMAIL_TEMPLATES.PRODUCT_RECEIPT,
+      substitutions: {
+        name: user.fullName,
+        transaction_no: order.order_number,
+        product: order.product.name,
+        date: new Date().toLocaleDateString("en-US", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        }),
+        amount: (amount / 100).toString(),
+        rate,
+        product_value: (Number(product_value) / 100).toString,
+        reason: order.reason,
+        temp_key: order.temp_key || "N/A",
+        license_key: order.license_key || "N/A",
+        charge: service_charge,
+        interest: product_interest,
+      },
+    });
+
     const updatedOrder = await this.ordersService.update(
       { _id: orderId },
       {

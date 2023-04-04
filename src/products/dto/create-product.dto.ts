@@ -4,6 +4,7 @@ import {
   Length,
   IsMongoId,
   IsOptional,
+  IsEmail,
 } from "class-validator";
 
 export class CreateProductDto {
@@ -15,6 +16,10 @@ export class CreateProductDto {
   @IsString()
   @IsMongoId()
   readonly provider: string;
+
+  @IsNotEmpty()
+  @IsEmail()
+  readonly email: string;
 
   @IsString()
   @Length(3, 30)
