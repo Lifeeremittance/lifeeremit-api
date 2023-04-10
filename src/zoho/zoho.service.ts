@@ -107,4 +107,28 @@ export class ZohoService {
     );
     return response.data;
   }
+
+  async sendInvoice(
+    accessToken: string,
+    data: {
+      send_from_org_email_id: boolean;
+      to_mail_ids: string[];
+      subject: string;
+      body: string;
+      invoice_id: string;
+    }
+  ): Promise<any> {
+    const headers = {
+      "X-com-zoho-invoice-organizationid": process.env.ORGANIZATION_ID,
+      Authorization: "Zoho-oauthtoken " + accessToken,
+      "Content-Type": "application/json",
+    };
+
+    const response = await axios.post(
+      `https://www.zohoapis.com/invoice/v3/invoices/${data.invoice_id}/email`,
+      data,
+      { headers }
+    );
+    return response.data;
+  }
 }
