@@ -121,6 +121,14 @@ export class WebhooksController {
       invoice: { invoice_id, invoice_url },
     } = res;
 
+    await this.zohoService.sendInvoice(access_token, {
+      invoice_id,
+      send_from_org_email_id: false,
+      to_mail_ids: [user.email_address],
+      subject: "Invoice for your order",
+      body: "Please find attached your invoice for your order",
+    });
+
     await this.zohoService.setInvoiceStatus(access_token, { invoice_id });
 
     await sendNotification({
