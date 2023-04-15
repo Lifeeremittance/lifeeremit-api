@@ -5,7 +5,7 @@ import axios from "axios";
 export class ZohoService {
   async getAccessToken(): Promise<any> {
     const response = await axios.post(
-      `https://accounts.zoho.com/oauth/v2/token?refresh_token=${process.env.REFRESH_TOKEN}&client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&redirect_uri=http://www.zoho.com/invoice&grant_type=refresh_token`
+      `https://accounts.zoho.com/oauth/v2/token?refresh_token=${process.env.REFRESH_TOKEN}&client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&redirect_uri=http://www.zoho.com/books/&grant_type=refresh_token`
     );
     return response.data;
   }
@@ -24,7 +24,7 @@ export class ZohoService {
     };
 
     const response = await axios.post(
-      "https://www.zohoapis.com/invoice/v3/contacts",
+      "https://www.zohoapis.com/books/v3/contacts",
       data,
       { headers }
     );
@@ -45,7 +45,7 @@ export class ZohoService {
     };
 
     const response = await axios.post(
-      "https://www.zohoapis.com/invoice/v3/items",
+      "https://www.zohoapis.com/books/v3/items",
       data,
       { headers }
     );
@@ -76,7 +76,7 @@ export class ZohoService {
       };
 
       const response = await axios.post(
-        "https://www.zohoapis.com/invoice/v3/invoices",
+        "https://www.zohoapis.com/books/v3/invoices",
         data,
         { headers }
       );
@@ -101,7 +101,7 @@ export class ZohoService {
     console.log(data.invoice_id);
 
     const response = await axios.post(
-      `https://www.zohoapis.com/invoice/v3/invoices/${data.invoice_id}/status/sent`,
+      `https://www.zohoapis.com/books/v3/invoices/${data.invoice_id}/status/sent`,
       {},
       { headers }
     );
@@ -125,7 +125,7 @@ export class ZohoService {
     };
 
     const response = await axios.post(
-      `https://www.zohoapis.com/invoice/v3/invoices/${data.invoice_id}/email`,
+      `https://www.zohoapis.com/books/v3/invoices/${data.invoice_id}/email`,
       data,
       { headers }
     );
